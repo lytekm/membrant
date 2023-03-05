@@ -1,0 +1,134 @@
+body{
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+}
+
+.project-body{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 4rem;
+    margin-left: 4rem;
+    margin-right: 4rem;
+    margin-bottom: 4rem;
+    background-color: #f5f5f5;
+}
+
+.project-header{
+    margin-left: 4rem;
+    display: flex;
+    flex-direction: row;
+    background-color: black;
+}
+
+.project-header input{
+    margin: 10px;
+    padding: 10px;
+    width: fit-content;
+    border: none;
+    font-size: 30px;
+    font-weight: bold;
+    background-color: black;
+    color: white;
+}
+
+.project-header input{
+    margin: 10px;
+    padding: 10px;
+    width: fit-content;
+    border: none;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.menu-button{
+    border: none;
+    background-color: black;
+}
+
+.icon{
+    background-color: rgb(77, 77, 77);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    transform: rotate(0deg);
+    transition: 200ms ease;
+}
+
+.icon:hover{
+    background-color: rgb(44, 44, 44);
+    cursor: pointer;
+    transform: rotate(90deg);
+    transition: 200ms ease;
+}
+
+.active{
+    background-color: rgb(255, 0, 0);
+    cursor: pointer;
+    transform: rotate(90deg);
+}
+
+@keyframes dropdown{
+    0%{
+        opacity: 0;
+        transform: translateY(-100%);
+    }
+    100%{
+        opacity: 1;
+        transform: translateY(0%);
+    }
+}
+
+@keyframes dropup{
+    0%{
+        opacity: 1;
+    }
+    100%{
+        opacity: 0;
+    }
+}
+
+.dropdownshow{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    left: 560px;
+    background-color: black;
+    animation: dropdown 200ms ease;
+}
+
+.dropdownhide{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    left: 560px;
+    background-color: black;
+    animation: dropup 200ms ease;
+    animation-fill-mode: forwards;
+}
+
+.dropdown-button{
+    border: none;
+    background-color: rgb(77, 77, 77);
+    width: 100%;
+    padding: 10px;
+    margin: 5px;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+}
+
+.dropdown-button:hover{
+    background-color: rgb(44, 44, 44);
+    cursor: pointer;
+    transform: scale(1.1);
+    transition: 200ms ease;
+}

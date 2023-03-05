@@ -1,0 +1,48 @@
+.navbar{
+    display: flex;
+    flex-direction: column;
+    width: 4rem;
+    height: 100vh;
+    background-color: rgb(44, 44, 44);
+    position: fixed;
+    top: 0;
+    transition: 200ms ease;
+}
+
+.navbar:hover{
+    width: 10rem;
+}
+
+.navbar:hover .nav-item-text{
+    display: block;
+}
+
+.nav-item{
+    padding: 5px;
+}
+
+.nav-item:hover{
+    background-color: rgb(29, 29, 29);
+}
+
+.nav-item-link{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.nav-item-text{
+    display: none;
+    margin-left: 10px;
+    color: white;
+}
+
+.logo{
+    width: 3rem;
+    height: 3rem;
+}
+
+.logo:hover{
+    fill: blue;
+}
+

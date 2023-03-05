@@ -1,0 +1,56 @@
+.list{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+    margin: 10px;
+    margin-left: 5rem;
+    background-color: rgb(77, 77, 77);
+    padding: 20px;
+    box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+}
+
+.list-title{
+    margin: 10px;
+    background-color: rgb(77, 77, 77);
+    border: 1px solid black;
+    padding: 10px;
+    font-size: 20px;
+    text-align: center;
+}
+
+.list-node{
+    width: 90%;
+    margin: 10px;
+    margin-bottom: 0px;
+    padding: 10px;
+    background-color: rgb(39, 197, 255);
+}
+
+.add-node-button{
+    width: 40%;
+    margin: 10px;
+    margin-top: 0px;
+    background-color: rgb(0, 125, 170);
+    border: 1px solid black;
+    text-align: center;
+    border-radius: 0 0 10px 10px;
+}
+
+.add-node-button:hover{
+    background-color: rgb(39, 197, 255);
+    color: black;
+}
+
+.list-node-button{
+    background-color: rgb(39, 197, 255);
+    margin: 3px;
+    border: 1px solid rgb(39, 197, 255);
+}
+
+.list-node-button:hover{
+    background-color: rgb(77, 77, 77);
+    border: 1px solid black;
+    color: white;
+}
