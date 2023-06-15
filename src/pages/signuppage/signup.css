@@ -43,6 +43,7 @@ body{
     font-size: 20px;
     background-color: rgb(77, 77, 77);
     color: white;
+    transition: ease 0.3s;
 }
 
 .login-page form button:hover{
@@ -50,5 +51,4 @@ body{
     color: white;
     border: 1px solid rgb(0, 62, 128);
     transform: scale(1.1);
-    transition: ease 0.2s;
 }

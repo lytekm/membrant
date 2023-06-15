@@ -1,76 +1,130 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Navbar from "../../components/navbar/nav";
-import ProjectNode from "../../components/projectnode/node";
+import Node from "../../components/nodes/node";
 
 const Dashboard = (props) => {
-  const [projects, setProjects] = useState([]);
   const params = useParams();
+  const [tasks, setTasks] = useState([]);
+  const [lateTasks, setLateTasks] = useState("");
+  const [recentProjects, setRecentProjects] = useState([]);
+  const [text, setText] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/projects/get", {
+    fetch("http://localhost:5000/dailytasks/" + params.id, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        for (let task in data) {
+          setTasks(...tasks, data[task]);
+        }
+        console.log(data);
+      });
+  }, []);
+
+  const saveTasks = (text, user, date, id) => {
+    const task = {
+      tasktext: text,
+      user: user,
+      date: date,
+      dailytask_id: id,
+    };
+    console.log(task);
+    fetch("http://localhost:5000/dailytasks", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        user: params.id,
-      }),
+      body: JSON.stringify(task),
     })
       .then((res) => res.json())
       .then((data) => {
-        data.map((project) => {
-          setProjects((prev) => [...prev, project]);
-        });
+        console.log(data);
       });
-  }, []);
+  };
 
-  const addProjects = () => {
-    const projectID = Math.floor(Math.random() * 1000);
-    const project = {
-      title: "New Project",
-      projectID: projectID,
+  const deleteTask = (id) => {
+    fetch("http://localhost:5000/dailytasks/" + id, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      });
+  };
+
+  const addTask = () => {
+    let day = new Date().getDate();
+    let month = new Date().getMonth() + 1;
+    let year = new Date().getFullYear();
+    const date = `${day}/${month}/${year}`;
+
+    const task = {
+      dailytask_id: Math.floor(Math.random() * 100),
+      tasktext: text,
+      date: date,
       user: params.id,
     };
-    setProjects((prev) => [...prev, project]);
-    console.log(projects);
+
+    console.log(task);
+
+    if (text !== "") {
+      setTasks([...tasks, task]);
+      setText("");
+      document.querySelector("input").value = "";
+      saveTasks(task.tasktext, task.user, task.date, task.dailytask_id);
+    } else {
+      alert("Please enter a task");
+    }
   };
 
   return (
     <Fragment>
       <Navbar />
+      <h1 className="dash-header">Dashboard</h1>
+      <h2 className="dash-header">Welcome {params.id}</h2>
       <div className="dashboard">
-        <h1>Dashboard</h1>
-        <h2>Welcome {params.id}</h2>
         <div className="projects">
-          <h3>Projects</h3>
-          <div className="project-list">
-            {projects.length > 0 ? (
-              projects.map((key) => {
-                console.log(key);
-                return (
-                  <ProjectNode
-                    key={key.projectID}
-                    projectID={key.projectID}
-                    user={params.id}
-                    projectName={key.title}
-                  />
-                );
-              })
+          <h3>Recent Projects</h3>
+          <div className="projects-list">
+            {recentProjects.length === 0 ? (
+              <p>No recent projects</p>
             ) : (
-              <h4>Theres Nothing to show here</h4>
+              recentProjects.map((project) => (
+                <Node class="project" key={project.id} text={project.name} />
+              ))
             )}
           </div>
-          <div className="button-wrapper">
-            {projects.length > 0 ? (
-              <button className="add-project" onClick={addProjects}>
-                Add Project
-              </button>
-            ) : (
-              <button className="add-project" onClick={addProjects}>
-                Add Something
-              </button>
-            )}
+        </div>
+        <div className="daily-tasks">
+          <h3>Daily Tasks</h3>
+          <div className="tasks">
+            <input
+              type="text"
+              placeholder="Add Task"
+              onChange={(e) => {
+                setText(e.target.value);
+              }}
+            />
+            <button className="add-task" onClick={addTask}>
+              Add Task
+            </button>
+            {tasks.map((task) => (
+              <Node
+                class={"task"}
+                key={task.dailytask_id}
+                text={task.tasktext}
+                button={true}
+                onClick={() => deleteTask(task.dailytask_id)}
+              />
+            ))}
           </div>
         </div>
       </div>

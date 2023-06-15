@@ -1,13 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-const encrypt = (password) => {
-  let encrypted = "";
-  for (let i = 0; i < password.length; i++) {
-    encrypted += String.fromCharCode(password.charCodeAt(i) + password.length);
-  }
-  return encrypted;
-};
+import md5 from "md5";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -20,14 +13,13 @@ const Login = () => {
   };
 
   const handlePasswordChange = (e) => {
-    const encryptedPassword = encrypt(e.target.value);
-    setPassword(encryptedPassword);
+    setPassword(md5(e.target.value));
   };
 
   const onSubmit = (e) => {
     e.preventDefault();
 
-    fetch("http://localhost:5000/api/login", {
+    fetch("http://localhost:5000/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -36,7 +28,7 @@ const Login = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.loggedIn === "true") {
+        if (data.message === "success") {
           navigate("/dashboard/" + username);
         } else {
           alert("Wrong username or password");

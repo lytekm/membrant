@@ -1,138 +1,109 @@
-import React, { useState, useEffect } from "react";
+import { React, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import InputNode from "../nodes/input-node";
 
 const List = (props) => {
-  const [listName, setListName] = useState("New List");
-  const [listNodes, setListNodes] = useState([]);
-  const [completedNodes, setCompletedNodes] = useState([]);
-  const [nodeText, setNodeText] = useState({});
+  const [Nodes, setNodes] = useState([]);
+  const [listName, setListName] = useState("");
+
   const params = useParams();
 
   useEffect(() => {
-    if (props.loaded) {
-      setListName(props.listName);
-      setCompletedNodes(props.completedNodes);
-      for (let i in props.nodes) {
-        setListNodes((prev) => [...prev, i]);
-        setNodeText((prev) => {
-          return {
-            ...prev,
-            [i]: props.nodes[i],
-          };
-        });
-      }
-      console.log(nodeText);
-    }
+    setListName(props.listName);
+    fetch("http://localhost:5000/nodes/get/" + props.listID, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        const nodes = data.data;
+        setNodes(nodes);
+      });
   }, []);
 
-  const saveList = () => {
-    const list = {
-      user: params.id,
-      ID: props.ID,
-      projectID: params.projectID,
-      name: listName,
-      nodes: nodeText,
-      completedNodes: completedNodes,
-    };
-    fetch(`http://localhost:5000/api/projects/savelist`, {
+  const addNode = () => {
+    const nodeId = Math.floor(Math.random() * 1000);
+    setNodes([...Nodes, { task_id: nodeId }]);
+
+    fetch("http://localhost:5000/tasks/" + props.listID, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(list),
-    });
+      body: JSON.stringify({
+        task_id: nodeId,
+        tasktext: "New Task",
+        list_id: props.listID,
+        user: params.id,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      });
   };
 
-  const deleteSavedNode = (key) => {
-    const list = {
-      projectID: params.projectID,
-      listID: props.ID,
-      nodeID: key,
-    };
-    fetch(`http://localhost:5000/api/projects/deletenode`, {
-      method: "POST",
+  const deleteNode = (id) => {
+    const newNodes = Nodes.filter((node) => {
+      return node.task_id != id;
+    });
+    setNodes(newNodes);
+    fetch("http://localhost:5000/tasks/delete/" + id, {
+      method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(list),
     });
   };
 
-  const addListNode = () => {
-    const key = Math.floor(Math.random() * 1000);
-    setListNodes((prev) => [...prev, key]);
-    console.log("added node: ", key);
-    saveList();
+  const changeListName = (e) => {
+    setListName(e.target.value);
   };
 
-  const nodeOnChange = (e, key) => {
-    nodeText[key] = e.target.value;
-    console.log(nodeText);
-    saveList();
-  };
-
-  const deleteListNode = (key) => {
-    setListNodes((prev) => prev.filter((node) => node !== key));
-    setNodeText((prev) => {
-      delete prev[key];
-      return prev;
-    });
-    console.log(listNodes);
-    deleteSavedNode(key);
-    saveList();
-  };
-
-  const completeListNode = (key) => {
-    setCompletedNodes((prev) => [...prev, nodeText[key]]);
-    deleteListNode(key);
+  const updateListName = () => {
+    fetch("http://localhost:5000/lists/update/" + props.listID, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        listname: listName,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      });
   };
 
   return (
     <div className="list">
       <input
-        className="list-title"
-        type="text"
+        className="list-header"
         value={listName}
         onChange={(e) => {
-          setListName(e.target.value);
-          saveList();
+          changeListName(e);
+          updateListName();
         }}
       />
-      <div className="list-nodes">
-        {listNodes.map((node) => (
-          <ListNode
-            key={node}
-            deleteNode={() => deleteListNode(node)}
-            completeNode={() => completeListNode(node)}
-            onChange={(e) => nodeOnChange(e, node)}
-            value={nodeText[node]}
-          />
-        ))}
+      <div className="node-container">
+        {Nodes.map((node) => {
+          return (
+            <InputNode
+              className={"list-node"}
+              key={node.task_id}
+              onClick={() => deleteNode(node.task_id)}
+              id={node.task_id}
+            />
+          );
+        })}
+        <button className="add-node" onClick={addNode}>
+          +
+        </button>
       </div>
-      <button className="add-node-button" onClick={addListNode}>
-        Add Node
-      </button>
-      <div className="completed-nodes">
-        {completedNodes.map((node) => (
-          <div className="completed-node" key={node.length}>
-            {node}
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
-
-const ListNode = (props) => {
-  return (
-    <div className="list-node">
-      <input type="text" onChange={props.onChange} value={props.value} />
-      <button className="list-node-button" onClick={props.completeNode}>
-        Complete
-      </button>
-      <button className="list-node-button" onClick={props.deleteNode}>
-        Delete
-      </button>
     </div>
   );
 };

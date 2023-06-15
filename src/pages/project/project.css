@@ -1,0 +1,41 @@
+.project-header{
+    margin-left: 5rem;
+}
+
+.project-settings{
+    margin-left: 10px;
+}
+
+.settings-container{
+    margin-left: 5rem;
+}
+
+.project-container{
+    margin-left: 5rem;
+}
+
+.project-settings{
+    margin-left: 10px;
+    border: 2px solid rgb(36, 158, 165);
+    padding: 10px;
+    transition: 200ms ease;
+}
+
+.project-settings:hover{
+    background-color: rgb(36, 158, 165);
+    color: rgb(255, 255, 255);
+    transform: scale(1.1);
+}
+
+.add-list{
+    margin-top: 10px;
+    border: 2px solid rgb(36, 158, 165);
+    padding: 10px;
+    transition: 200ms ease;
+}
+
+.add-list:hover{
+    background-color: rgb(36, 158, 165);
+    color: rgb(255, 255, 255);
+    transform: scale(1.1);
+}

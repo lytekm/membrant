@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 import DashLogo from "../../components/navbar/Dashboard.svg";
+import ProjectLogo from "../../components/navbar/project-logo.svg";
 
 const Navbar = (props) => {
   const params = useParams();
@@ -10,6 +11,12 @@ const Navbar = (props) => {
         to={"/dashboard/" + params.id}
         logo={DashLogo}
         text={"Dashboard"}
+      />
+
+      <NavItem
+        to={"/projects/" + params.id}
+        logo={ProjectLogo}
+        text={"Projects"}
       />
     </div>
   );

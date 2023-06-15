@@ -1,0 +1,81 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+
+.projects-header{
+    margin-left: 5rem;
+}
+
+.create-project{
+    margin-left: 5rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-radius: 5px 10px 5px 10px;
+    border: 2px solid rgb(36, 158, 165);
+    transition: 200ms ease;
+}
+
+.create-project:hover{
+    background-color: rgb(36, 158, 165);
+    color: rgb(255, 255, 255);
+    transform: scale(1.1);
+}
+
+.create-project img{
+    width: 20px;
+    height: 20px;
+    margin: 10px;
+}
+
+.projects-container{
+    margin-left: 5rem;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.myprojects{
+    margin: 20px;
+    padding: 0px 20px 20px 20px;
+    background-color: rgb(61, 244, 253);
+    border: 2px solid rgb(36, 158, 165);
+    border-radius: 10px;
+    width: 20%;
+    height: min-content;
+}
+
+.allprojects{
+    margin: 20px;
+    padding: 0px 20px 20px 20px;
+    background-color: rgb(61, 244, 253);
+    border: 2px solid rgb(36, 158, 165);
+    border-radius: 10px;
+    width: 20%;
+    height: min-content;
+}
+
+.project{
+    padding: 10px;
+    background-color: rgb(255, 255, 255);
+    border: 2px solid rgb(36, 158, 165);
+    border-radius: 10px;
+    text-align: center;
+    margin: 10px;
+    transition: 200ms ease;
+}
+
+.project p{
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+.project:hover{
+    transform: scale(1.1);
+    background-color: rgb(36, 158, 165);
+    color: rgb(255, 255, 255);
+    cursor: pointer;
+}

@@ -1,13 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-
-const encrypt = (password) => {
-  let encrypted = "";
-  for (let i = 0; i < password.length; i++) {
-    encrypted += String.fromCharCode(password.charCodeAt(i) + password.length);
-  }
-  return encrypted;
-};
+import md5 from "md5";
 
 const Signup = () => {
   const [username, setUsername] = useState("");
@@ -15,8 +8,6 @@ const Signup = () => {
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
-
-  const data = { username, email, password };
 
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
@@ -27,34 +18,26 @@ const Signup = () => {
   };
 
   const handlePasswordChange = (e) => {
-    const encryptedPassword = encrypt(e.target.value);
-    setPassword(encryptedPassword);
+    setPassword(md5(e.target.value));
   };
 
   const onSubmit = (e) => {
     e.preventDefault();
-    fetch("http://localhost:5000/api/newlogin", {
+    setPassword(md5(password));
+    fetch("http://localhost:5000/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify({ username, email, password }),
     });
-
-    setUsername("");
-    setEmail("");
-    setPassword("");
-
-    document.getElementById("username").value = "";
-    document.getElementById("email").value = "";
-    document.getElementById("password").value = "";
 
     navigate("/login");
   };
 
   return (
     <div className="login-page">
-      <h1>Signup</h1>
+      <h1>Sign Up</h1>
       <form onSubmit={onSubmit}>
         <label htmlFor="username">Username</label>
         <input

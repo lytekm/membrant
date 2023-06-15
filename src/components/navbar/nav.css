@@ -19,6 +19,7 @@
 
 .nav-item{
     padding: 5px;
+    transition: 200ms ease;
 }
 
 .nav-item:hover{
@@ -29,6 +30,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    text-decoration: none;
 }
 
 .nav-item-text{
@@ -41,8 +43,3 @@
     width: 3rem;
     height: 3rem;
 }
-
-.logo:hover{
-    fill: blue;
-}
-
