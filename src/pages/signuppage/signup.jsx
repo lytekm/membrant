@@ -6,6 +6,7 @@ const Signup = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const navigate = useNavigate();
 
@@ -23,16 +24,22 @@ const Signup = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    setPassword(md5(password));
-    fetch("http://localhost:5000/signup", {
+    fetch("https://membrant-server.onrender.com/users/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ username, email, password }),
-    });
-
-    navigate("/login");
+    })
+      .then((res) => {
+        res.json();
+        if (res.status === 200) {
+          navigate("/login");
+        } else {
+          setErrorMessage("Username or Email already exists");
+        }
+      })
+      .catch((err) => setErrorMessage(err.message));
   };
 
   return (
@@ -41,6 +48,7 @@ const Signup = () => {
       <form onSubmit={onSubmit}>
         <label htmlFor="username">Username</label>
         <input
+          required
           type="text"
           id="username"
           name="username"
@@ -48,6 +56,7 @@ const Signup = () => {
         />
         <label htmlFor="email">Email</label>
         <input
+          required
           type="email"
           id="email"
           name="email"
@@ -55,6 +64,7 @@ const Signup = () => {
         />
         <label htmlFor="password">Password</label>
         <input
+          required
           type="password"
           id="password"
           name="password"
@@ -62,6 +72,9 @@ const Signup = () => {
         />
         <button type="submit">Sign Up</button>
       </form>
+      {errorMessage === "" ? null : (
+        <div className="error-message">{errorMessage}</div>
+      )}
       <p>
         Already a user? <Link to={"/login"}>Login Here</Link>
       </p>

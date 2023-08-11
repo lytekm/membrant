@@ -1,6 +1,21 @@
 .progress-bar{
-    height: 100px;
-    width: 100px;
+    height: 20px;
+    width: 95%;
     margin: 10px;
-    border-radius: 50%;
+    background-color: #515151;
+    align-items: center;
+    border-radius: 20px;
+    border: 3px solid rgb(0, 0, 0);
+}
+
+.progress-bar p{
+    position: fixed;
+    z-index: 2;
+}
+
+.progress-bar__fill{
+    background-color: rgba(136, 136, 136, 0.557);
+    height: 100%;
+    border-radius: 20px;
+    transition: width 0.5s ease-in-out;
 }

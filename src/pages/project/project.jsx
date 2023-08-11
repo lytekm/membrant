@@ -6,14 +6,19 @@ import List from "../../components/list/list";
 import Progressbar from "../../components/progressbar/progressbar";
 
 const Project = (props) => {
+  //hooks
   const params = useParams();
   const [projectName, setProjectName] = useState("");
   const [openSettings, setOpenSettings] = useState(false);
   const [lists, setLists] = useState([]);
   const navigate = useNavigate();
+  //get user and project id from url
+  const projectID = params.projectId;
+  const user = params.id;
 
-  useEffect(() => {
-    fetch("http://localhost:5000/projects/get/" + params.projectId, {
+  //get the project name
+  function fetchProject() {
+    fetch("https://membrant-server.onrender.com/projects/" + user, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -22,11 +27,18 @@ const Project = (props) => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        const project = data.data[0];
-        setProjectName(project.projectname);
+        const projects = data;
+        for (let i = 0; i < projects.length; i++) {
+          if (projects[i].project_id == projectID) {
+            setProjectName(projects[i].projectname);
+          }
+        }
       });
+  }
 
-    fetch("http://localhost:5000/lists/" + params.projectId, {
+  //get the project lists
+  function fetchLists() {
+    fetch("https://membrant-server.onrender.com/projects/lists/" + projectID, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -35,18 +47,39 @@ const Project = (props) => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        const lists = data.data;
+        const lists = data;
         setLists(lists);
       });
+    console.log(lists);
+  }
+
+  //save the list to the database
+  function saveList(list) {
+    fetch("https://membrant-server.onrender.com/lists", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(list),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      });
+  }
+
+  useEffect(() => {
+    fetchProject();
+    fetchLists();
   }, []);
 
   const titleOnChange = (e) => {
     setProjectName(e.target.value);
-    console.log(projectName);
   };
 
+  //delete the project
   const deleteProject = () => {
-    fetch("http://localhost:5000/projects/delete/" + params.projectId, {
+    fetch("https://membrant-server.onrender.com/projects/" + projectID, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -59,6 +92,7 @@ const Project = (props) => {
     navigate("/projects/" + params.id);
   };
 
+  //add a new list
   const addList = () => {
     const list = {
       listname: "New List",
@@ -66,17 +100,8 @@ const Project = (props) => {
       list_id: Math.floor(Math.random() * 10000) + 1,
       username: params.id,
     };
-    fetch("http://localhost:5000/lists/" + params.projectId, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(list),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-      });
+    //save the list to the database
+    saveList(list);
     setLists([...lists, list]);
   };
 
@@ -90,7 +115,7 @@ const Project = (props) => {
           onClick={() => {
             if (openSettings) {
               fetch(
-                "http://localhost:5000/projects/update/" + params.projectId,
+                "https://membrant-server.onrender.com/projects/" + projectID,
                 {
                   method: "PUT",
                   headers: {
@@ -123,7 +148,7 @@ const Project = (props) => {
         <button className="add-list" onClick={addList}>
           Add List
         </button>
-        <Progressbar lists={lists} />
+        <Progressbar projectId={projectID} />
         <div className="list-container">
           {lists.map((list) => {
             return (

@@ -10,7 +10,7 @@ const Projects = () => {
   const params = useParams();
 
   useEffect(() => {
-    fetch("http://localhost:5000/projects/" + params.id, {
+    fetch("https://membrant-server.onrender.com/projects/" + params.id, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -18,9 +18,7 @@ const Projects = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        for (let project in data) {
-          setProjects(...projects, data[project]);
-        }
+        setProjects(...projects, data);
         console.log(data);
       });
   }, []);
@@ -32,16 +30,13 @@ const Projects = () => {
       username: params.id,
       project_id: Math.floor(Math.random() * 10000) + 1,
     };
-    fetch(
-      "http://localhost:5000/projects/" + params.id + "/" + project.project_id,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(project),
-      }
-    )
+    fetch("https://membrant-server.onrender.com/projects", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(project),
+    })
       .then((res) => res.json())
       .then((data) => {
         console.log(data);

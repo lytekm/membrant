@@ -11,7 +11,7 @@ const Dashboard = (props) => {
   const [text, setText] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:5000/dailytasks/" + params.id, {
+    fetch("https://membrant-server.onrender.com/dailytasks/" + params.id, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -19,22 +19,19 @@ const Dashboard = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        for (let task in data) {
-          setTasks(...tasks, data[task]);
-        }
+        setTasks(...tasks, data);
         console.log(data);
       });
   }, []);
 
-  const saveTasks = (text, user, date, id) => {
+  const saveTasks = (text, user, id) => {
     const task = {
       tasktext: text,
       user: user,
-      date: date,
       dailytask_id: id,
     };
     console.log(task);
-    fetch("http://localhost:5000/dailytasks", {
+    fetch("https://membrant-server.onrender.com/dailytasks", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -47,29 +44,10 @@ const Dashboard = (props) => {
       });
   };
 
-  const deleteTask = (id) => {
-    fetch("http://localhost:5000/dailytasks/" + id, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-      });
-  };
-
   const addTask = () => {
-    let day = new Date().getDate();
-    let month = new Date().getMonth() + 1;
-    let year = new Date().getFullYear();
-    const date = `${day}/${month}/${year}`;
-
     const task = {
       dailytask_id: Math.floor(Math.random() * 100),
       tasktext: text,
-      date: date,
       user: params.id,
     };
 
@@ -79,7 +57,7 @@ const Dashboard = (props) => {
       setTasks([...tasks, task]);
       setText("");
       document.querySelector("input").value = "";
-      saveTasks(task.tasktext, task.user, task.date, task.dailytask_id);
+      saveTasks(task.tasktext, task.user, task.dailytask_id);
     } else {
       alert("Please enter a task");
     }
@@ -122,7 +100,7 @@ const Dashboard = (props) => {
                 key={task.dailytask_id}
                 text={task.tasktext}
                 button={true}
-                onClick={() => deleteTask(task.dailytask_id)}
+                id={task.dailytask_id}
               />
             ))}
           </div>

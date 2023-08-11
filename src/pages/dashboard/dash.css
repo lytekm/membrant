@@ -58,12 +58,15 @@ body{
     border: 2px solid rgb(36, 158, 165);
     width: 90%;
     transition: 200ms ease;
+    padding: 10px;
+    margin: 10px;
+    align-items: center;
+    justify-content: center;
 }
 
 .task p{
     margin: 0;
     padding: 0;
-    width: 100%;
 }
 
 .task:hover{

@@ -10,7 +10,7 @@ const List = (props) => {
 
   useEffect(() => {
     setListName(props.listName);
-    fetch("http://localhost:5000/nodes/get/" + props.listID, {
+    fetch("https://membrant-server.onrender.com/lists/tasks/" + props.listID, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -19,25 +19,27 @@ const List = (props) => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        const nodes = data.data;
-        setNodes(nodes);
+        for (let i = 0; i < data.length; i++) {
+          console.log(data[i].task_id);
+          setNodes((Nodes) => [...Nodes, data[i].task_id]);
+        }
       });
   }, []);
 
   const addNode = () => {
     const nodeId = Math.floor(Math.random() * 1000);
-    setNodes([...Nodes, { task_id: nodeId }]);
+    setNodes([...Nodes, nodeId]);
 
-    fetch("http://localhost:5000/tasks/" + props.listID, {
+    fetch("https://membrant-server.onrender.com/tasks/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        task_id: nodeId,
-        tasktext: "New Task",
-        list_id: props.listID,
-        user: params.id,
+        taskid: nodeId,
+        taskname: "New Task",
+        listid: props.listID,
+        username: params.id,
       }),
     })
       .then((res) => res.json())
@@ -48,15 +50,18 @@ const List = (props) => {
 
   const deleteNode = (id) => {
     const newNodes = Nodes.filter((node) => {
-      return node.task_id != id;
+      return node != id;
     });
     setNodes(newNodes);
-    fetch("http://localhost:5000/tasks/delete/" + id, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    fetch(
+      "https://membrant-server.onrender.com/tasks/" + id + "/" + props.listID,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
   };
 
   const changeListName = (e) => {
@@ -64,7 +69,9 @@ const List = (props) => {
   };
 
   const updateListName = () => {
-    fetch("http://localhost:5000/lists/update/" + props.listID, {
+    console.log(listName);
+    console.log(props.listID);
+    fetch("https://membrant-server.onrender.com/lists/" + props.listID, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -86,17 +93,18 @@ const List = (props) => {
         value={listName}
         onChange={(e) => {
           changeListName(e);
-          updateListName();
         }}
+        onBlur={updateListName}
       />
       <div className="node-container">
         {Nodes.map((node) => {
           return (
             <InputNode
               className={"list-node"}
-              key={node.task_id}
-              onClick={() => deleteNode(node.task_id)}
-              id={node.task_id}
+              key={node}
+              onClick={() => deleteNode(node)}
+              id={node}
+              listID={props.listID}
             />
           );
         })}

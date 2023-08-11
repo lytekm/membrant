@@ -1,12 +1,11 @@
 .list{
-    margin: 20px;
-    width: 30%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: rgb(61, 244, 253);
-    border: 2px solid rgb(36, 158, 165);
+    width: 25%;
+    background-color: rgb(134, 134, 134);
+    margin: 20px;
     padding: 5px;
 }
 
@@ -14,7 +13,7 @@
     margin: 10px;
     text-align: center;
     padding: 10px;
-    background-color: rgb(36, 158, 165);
+    background-color: inherit;
     border-radius: 10px;
     border: none;
     font-size: 1.3rem;
@@ -26,14 +25,15 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    width: 100%;
 }
 
 .add-node{
     border-width: 0 2px 2px 2px;
-    border-color: rgb(36, 158, 165);
+    border-color: rgb(101, 101, 101);
     padding: 10px;
     transition: 200ms ease;
-    width: 30%;
+    width: 50%;
 }
 
 .add-node:hover{

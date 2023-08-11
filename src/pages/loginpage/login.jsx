@@ -5,6 +5,7 @@ import md5 from "md5";
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const navigate = useNavigate();
 
@@ -18,8 +19,7 @@ const Login = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-
-    fetch("http://localhost:5000/login", {
+    fetch("https://membrant-server.onrender.com/users/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -31,7 +31,7 @@ const Login = () => {
         if (data.message === "success") {
           navigate("/dashboard/" + username);
         } else {
-          alert("Wrong username or password");
+          setErrorMessage("Username or Password is incorrect");
         }
       });
   };
@@ -42,6 +42,7 @@ const Login = () => {
       <form onSubmit={onSubmit}>
         <label htmlFor="username">Username</label>
         <input
+          required
           type="text"
           id="username"
           name="username"
@@ -49,6 +50,7 @@ const Login = () => {
         />
         <label htmlFor="password">Password</label>
         <input
+          required
           type="password"
           id="password"
           name="password"
@@ -56,6 +58,9 @@ const Login = () => {
         />
         <button type="submit">Login</button>
       </form>
+      {errorMessage === "" ? null : (
+        <div className="error-message">{errorMessage}</div>
+      )}
     </div>
   );
 };
