@@ -6,7 +6,7 @@ import Node from "../../components/nodes/node";
 const Dashboard = (props) => {
   const params = useParams();
   const [tasks, setTasks] = useState([]);
-  const [lateTasks, setLateTasks] = useState("");
+  //const [lateTasks, setLateTasks] = useState("");
   const [recentProjects, setRecentProjects] = useState([]);
   const [text, setText] = useState("");
 

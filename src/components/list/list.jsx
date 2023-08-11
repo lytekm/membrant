@@ -50,7 +50,7 @@ const List = (props) => {
 
   const deleteNode = (id) => {
     const newNodes = Nodes.filter((node) => {
-      return node != id;
+      return node !== id;
     });
     setNodes(newNodes);
     fetch(

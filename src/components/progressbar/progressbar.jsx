@@ -36,7 +36,7 @@ const Progressbar = (props) => {
       })
       .then((data) => {
         data.map((list) => {
-          getProgress(list.list_id);
+          return getProgress(list.list_id);
         });
       });
   }, []);

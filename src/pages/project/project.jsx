@@ -29,7 +29,7 @@ const Project = (props) => {
         console.log(data);
         const projects = data;
         for (let i = 0; i < projects.length; i++) {
-          if (projects[i].project_id == projectID) {
+          if (projects[i].project_id === projectID) {
             setProjectName(projects[i].projectname);
           }
         }
