@@ -5,8 +5,10 @@
 /.pnp
 .pnp.js
 
+
 # testing
 /coverage
+setupTests.js
 
 # production
 /build
