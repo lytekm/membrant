@@ -7,17 +7,20 @@
     background-color: rgb(36, 158, 165);
     margin-top: 10px;
     padding: 10px;
+    height: min-content;
 }
 
-.input-node input{
+.input-node span{
     border: none;
     font-size: 1rem;
     width: 50%;
     background-color: rgb(36, 158, 165);
     margin-right: 10px;
+    overflow-wrap: break-word;
+    resize: none;
 }
 
-.input-node input:focus{
+.input-node span:focus{
     outline: none;
 }
 

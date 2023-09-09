@@ -1,11 +1,12 @@
 import { React, useState, useEffect } from "react";
+import config from "../../config.js";
 
 const InputNode = (props) => {
   const [text, setText] = useState("");
   const [complete, setComplete] = useState("");
 
   useEffect(() => {
-    fetch("https://membrant-server.onrender.com/tasks/" + props.id, {
+    fetch(`${config.apiBaseUrl}/tasks/` + props.id, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -22,7 +23,7 @@ const InputNode = (props) => {
   };
 
   const saveNode = () => {
-    fetch("https://membrant-server.onrender.com/tasks/" + props.id, {
+    fetch(`${config.apiBaseUrl}/tasks/` + props.id, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -34,7 +35,7 @@ const InputNode = (props) => {
   };
 
   const completeTask = (id) => {
-    fetch("https://membrant-server.onrender.com/tasks/complete/" + id, {
+    fetch(`${config.apiBaseUrl}/tasks/complete/` + id, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -49,13 +50,15 @@ const InputNode = (props) => {
 
   return (
     <div className={"input-node" + complete}>
-      <input
+      <span
         className="input-node-input"
         type="text"
         onChange={(e) => nodeOnChange(e)}
         onBlur={saveNode}
-        value={text}
-      />
+        contentEditable="true"
+      >
+        {text}
+      </span>
       <button className="input-node-button" onClick={props.onClick}>
         Delete
       </button>

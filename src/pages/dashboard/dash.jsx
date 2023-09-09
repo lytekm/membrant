@@ -2,6 +2,7 @@ import React, { Fragment, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Navbar from "../../components/navbar/nav";
 import Node from "../../components/nodes/node";
+import config from "../../config.js";
 
 const Dashboard = (props) => {
   const params = useParams();
@@ -11,7 +12,7 @@ const Dashboard = (props) => {
   const [text, setText] = useState("");
 
   useEffect(() => {
-    fetch("https://membrant-server.onrender.com/dailytasks/" + params.id, {
+    fetch(`${config.apiBaseUrl}/dailytasks/` + params.id, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -31,7 +32,7 @@ const Dashboard = (props) => {
       dailytask_id: id,
     };
     console.log(task);
-    fetch("https://membrant-server.onrender.com/dailytasks", {
+    fetch(`${config.apiBaseUrl}/dailytasks`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

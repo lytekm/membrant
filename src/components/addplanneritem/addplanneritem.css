@@ -1,0 +1,17 @@
+.add-item{
+    display: flex;
+    flex-direction: column;
+    border: 2px solid rgb(36, 158, 165);
+    padding: 10px;
+    width: 30%;
+    transition: 200ms ease;
+    margin: 10px;
+    justify-content: center;
+}
+
+.add-time{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 10px;
+}

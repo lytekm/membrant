@@ -4,6 +4,7 @@ import Navbar from "../../components/navbar/nav";
 import Settings from "../../components/projectsettings/settings";
 import List from "../../components/list/list";
 import Progressbar from "../../components/progressbar/progressbar";
+import config from "../../config.js";
 
 const Project = (props) => {
   //hooks
@@ -18,7 +19,7 @@ const Project = (props) => {
 
   //get the project name
   function fetchProject() {
-    fetch("https://membrant-server.onrender.com/projects/" + user, {
+    fetch(`${config.apiBaseUrl}/projects/` + user, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -29,7 +30,7 @@ const Project = (props) => {
         console.log(data);
         const projects = data;
         for (let i = 0; i < projects.length; i++) {
-          if (projects[i].project_id === projectID) {
+          if (projects[i].project_id == projectID) {
             setProjectName(projects[i].projectname);
           }
         }
@@ -38,7 +39,7 @@ const Project = (props) => {
 
   //get the project lists
   function fetchLists() {
-    fetch("https://membrant-server.onrender.com/projects/lists/" + projectID, {
+    fetch(`${config.apiBaseUrl}/projects/lists/` + projectID, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -55,7 +56,7 @@ const Project = (props) => {
 
   //save the list to the database
   function saveList(list) {
-    fetch("https://membrant-server.onrender.com/lists", {
+    fetch(`${config.apiBaseUrl}/lists`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -79,7 +80,7 @@ const Project = (props) => {
 
   //delete the project
   const deleteProject = () => {
-    fetch("https://membrant-server.onrender.com/projects/" + projectID, {
+    fetch(`${config.apiBaseUrl}/projects/` + projectID, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -114,16 +115,13 @@ const Project = (props) => {
           className="project-settings"
           onClick={() => {
             if (openSettings) {
-              fetch(
-                "https://membrant-server.onrender.com/projects/" + projectID,
-                {
-                  method: "PUT",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify({ projectname: projectName }),
-                }
-              )
+              fetch(`${config.apiBaseUrl}/projects/` + projectID, {
+                method: "PUT",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ projectname: projectName }),
+              })
                 .then((res) => res.json())
                 .then((data) => {
                   console.log(data);

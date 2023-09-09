@@ -1,6 +1,7 @@
 import { React, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import InputNode from "../nodes/input-node";
+import config from "../../config.js";
 
 const List = (props) => {
   const [Nodes, setNodes] = useState([]);
@@ -10,7 +11,7 @@ const List = (props) => {
 
   useEffect(() => {
     setListName(props.listName);
-    fetch("https://membrant-server.onrender.com/lists/tasks/" + props.listID, {
+    fetch(`${config.apiBaseUrl}/lists/tasks/` + props.listID, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -30,7 +31,7 @@ const List = (props) => {
     const nodeId = Math.floor(Math.random() * 1000);
     setNodes([...Nodes, nodeId]);
 
-    fetch("https://membrant-server.onrender.com/tasks/", {
+    fetch(`${config.apiBaseUrl}/tasks/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -53,15 +54,12 @@ const List = (props) => {
       return node !== id;
     });
     setNodes(newNodes);
-    fetch(
-      "https://membrant-server.onrender.com/tasks/" + id + "/" + props.listID,
-      {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    fetch(`${config.apiBaseUrl}/tasks/` + id + "/" + props.listID, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
   };
 
   const changeListName = (e) => {
@@ -71,7 +69,7 @@ const List = (props) => {
   const updateListName = () => {
     console.log(listName);
     console.log(props.listID);
-    fetch("https://membrant-server.onrender.com/lists/" + props.listID, {
+    fetch(`${config.apiBaseUrl}/lists/` + props.listID, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

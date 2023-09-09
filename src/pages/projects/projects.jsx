@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Node from "../../components/nodes/node";
 import Navbar from "../../components/navbar/nav";
 import AddLogo from "../../pages/projects/plussign.svg";
+import config from "../../config.js";
 
 const Projects = () => {
   const [projects, setProjects] = useState([]);
@@ -10,7 +11,7 @@ const Projects = () => {
   const params = useParams();
 
   useEffect(() => {
-    fetch("https://membrant-server.onrender.com/projects/" + params.id, {
+    fetch(`${config.apiBaseUrl}/projects/` + params.id, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -30,7 +31,7 @@ const Projects = () => {
       username: params.id,
       project_id: Math.floor(Math.random() * 10000) + 1,
     };
-    fetch("https://membrant-server.onrender.com/projects", {
+    fetch(`${config.apiBaseUrl}/projects`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import md5 from "md5";
+import config from "../../config.js";
 
 const Signup = () => {
   const [username, setUsername] = useState("");
@@ -24,7 +25,7 @@ const Signup = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    fetch("https://membrant-server.onrender.com/users/register", {
+    fetch(`${config.apiBaseUrl}/users/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

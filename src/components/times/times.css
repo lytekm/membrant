@@ -1,0 +1,42 @@
+.times{
+    width: 50%;
+    margin: auto;
+    border: 2px solid rgb(36, 158, 165);
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.451);
+    color: white;
+}
+
+.time {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+.line{
+    border-bottom: 1px solid white;
+    width: 100%;
+    margin-left: 5px;
+}
+
+.daily-planner-item{
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border: 2px solid rgb(36, 158, 165);
+    background-color: rgba(36, 159, 165, 0.383);
+    border-radius: 5px;
+    left: 420px;
+    width: 45%;
+}
+
+.daily-planner-item p{
+    margin-left: 10px;
+}
+  
+.daily-planner-item:hover{
+    background-color: rgb(39, 157, 163);
+    border: 2px solid rgb(42, 150, 156);
+}

@@ -1,0 +1,12 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+
+.planner-header{
+    margin-left: 5rem;
+}
+
+.today{
+    margin-left: 5rem;
+}

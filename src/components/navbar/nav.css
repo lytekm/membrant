@@ -7,12 +7,13 @@
     position: fixed;
     top: 0;
     transition: 200ms ease;
+    z-index: 2;
 }
 
 .navbar:hover{
     width: 10rem;
 }
-
+ 
 .navbar:hover .nav-item-text{
     display: block;
 }

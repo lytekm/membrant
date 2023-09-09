@@ -40,6 +40,10 @@ body{
     padding: 10px;
 }
 
+.daily-tasks input:focus{
+    outline: none;
+}
+
 .add-task{
     border: 2px solid rgb(36, 158, 165);
     padding: 10px;

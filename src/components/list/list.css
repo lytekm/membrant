@@ -1,12 +1,15 @@
 .list{
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     width: 25%;
-    background-color: rgb(134, 134, 134);
+    height: min-content;
+    background-color: rgb(63, 202, 200);
     margin: 20px;
     padding: 5px;
+    border-radius: 10px;
+    border: 2px solid rgb(30, 30, 30);
+    box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.342);
 }
 
 .list-header{
@@ -20,6 +23,10 @@
     width: 50%;
 }
 
+.list-header:focus{
+    outline: none;
+}
+
 .node-container{
     display: flex;
     flex-direction: column;
@@ -29,11 +36,16 @@
 }
 
 .add-node{
+    display: flex;
     border-width: 0 2px 2px 2px;
+    border-radius: 0 0 10px 10px;
     border-color: rgb(101, 101, 101);
     padding: 10px;
     transition: 200ms ease;
     width: 50%;
+    height: 20px;
+    align-items: center;
+    justify-content: center;
 }
 
 .add-node:hover{
