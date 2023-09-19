@@ -6,6 +6,7 @@ import Dashboard from "./pages/dashboard/dash";
 import Projects from "./pages/projects/projects";
 import Project from "./pages/project/project";
 import DayPlanner from "./pages/dayplanner/dayplanner";
+import Admin from "./pages/admin/admin";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import "./pages/mainpage/main.css";
@@ -23,6 +24,7 @@ import "./components/progressbar/progressbar.css";
 import "./pages/dayplanner/dayplanner.css";
 import "./components/addplanneritem/addplanneritem.css";
 import "./components/times/times.css";
+import "./pages/admin/admin.css";
 
 const App = () => {
   return (
@@ -35,6 +37,7 @@ const App = () => {
         <Route path="/projects/:id" element={<Projects />} />
         <Route path="/projects/:id/:projectId" element={<Project />} />
         <Route path="/dayplanner/:id" element={<DayPlanner />} />
+        <Route path="/admin" element={<Admin />} />
       </Routes>
     </BrowserRouter>
   );

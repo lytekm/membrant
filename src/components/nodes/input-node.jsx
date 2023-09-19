@@ -1,9 +1,18 @@
-import { React, useState, useEffect } from "react";
+import { React, useState, useEffect, useRef } from "react";
 import config from "../../config.js";
 
 const InputNode = (props) => {
   const [text, setText] = useState("");
   const [complete, setComplete] = useState("");
+  const inputRef = useRef(null);
+
+  const changeHeight = () => {
+    const input = inputRef.current;
+    if (input) {
+      input.style.height = "auto";
+      input.style.height = `${input.scrollHeight}px`;
+    }
+  };
 
   useEffect(() => {
     fetch(`${config.apiBaseUrl}/tasks/` + props.id, {
@@ -18,8 +27,13 @@ const InputNode = (props) => {
       });
   }, []);
 
+  useEffect(() => {
+    changeHeight();
+  }, [text]);
+
   const nodeOnChange = (e) => {
     setText(e.target.value);
+    changeHeight();
   };
 
   const saveNode = () => {
@@ -50,15 +64,15 @@ const InputNode = (props) => {
 
   return (
     <div className={"input-node" + complete}>
-      <span
+      <textarea
+        ref={inputRef}
         className="input-node-input"
         type="text"
         onChange={(e) => nodeOnChange(e)}
         onBlur={saveNode}
-        contentEditable="true"
-      >
-        {text}
-      </span>
+        value={text}
+        rows={1}
+      />
       <button className="input-node-button" onClick={props.onClick}>
         Delete
       </button>

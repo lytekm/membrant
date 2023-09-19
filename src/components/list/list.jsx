@@ -2,10 +2,12 @@ import { React, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import InputNode from "../nodes/input-node";
 import config from "../../config.js";
+import Arrow from "./arrow.svg";
 
 const List = (props) => {
   const [Nodes, setNodes] = useState([]);
   const [listName, setListName] = useState("");
+  const [showList, setShowList] = useState(true);
 
   const params = useParams();
 
@@ -19,10 +21,12 @@ const List = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         for (let i = 0; i < data.length; i++) {
-          console.log(data[i].task_id);
-          setNodes((Nodes) => [...Nodes, data[i].task_id]);
+          if (data[i].completed === 1) {
+            continue;
+          } else {
+            setNodes((Nodes) => [...Nodes, data[i].task_id]);
+          }
         }
       });
   }, []);
@@ -42,11 +46,7 @@ const List = (props) => {
         listid: props.listID,
         username: params.id,
       }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-      });
+    }).then((res) => res.json());
   };
 
   const deleteNode = (id) => {
@@ -77,11 +77,7 @@ const List = (props) => {
       body: JSON.stringify({
         listname: listName,
       }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-      });
+    }).then((res) => res.json());
   };
 
   return (
@@ -94,22 +90,33 @@ const List = (props) => {
         }}
         onBlur={updateListName}
       />
-      <div className="node-container">
-        {Nodes.map((node) => {
-          return (
-            <InputNode
-              className={"list-node"}
-              key={node}
-              onClick={() => deleteNode(node)}
-              id={node}
-              listID={props.listID}
-            />
-          );
-        })}
-        <button className="add-node" onClick={addNode}>
-          +
-        </button>
-      </div>
+      <img
+        className="dropdown"
+        src={Arrow}
+        alt="arrow"
+        style={showList ? { rotate: "0deg" } : { rotate: "180deg" }}
+        onClick={() => {
+          setShowList(!showList);
+        }}
+      />
+      {showList ? (
+        <div className="node-container">
+          {Nodes.map((node) => {
+            return (
+              <InputNode
+                className={"list-node"}
+                key={node}
+                onClick={() => deleteNode(node)}
+                id={node}
+                listID={props.listID}
+              />
+            );
+          })}
+          <button className="add-node" onClick={addNode}>
+            +
+          </button>
+        </div>
+      ) : null}
     </div>
   );
 };

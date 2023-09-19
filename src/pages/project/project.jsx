@@ -11,6 +11,7 @@ const Project = (props) => {
   const params = useParams();
   const [projectName, setProjectName] = useState("");
   const [openSettings, setOpenSettings] = useState(false);
+  const [completedItems, setCompletedItems] = useState([]);
   const [lists, setLists] = useState([]);
   const navigate = useNavigate();
   //get user and project id from url
@@ -27,7 +28,6 @@ const Project = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         const projects = data;
         for (let i = 0; i < projects.length; i++) {
           if (projects[i].project_id == projectID) {
@@ -47,11 +47,8 @@ const Project = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
-        const lists = data;
-        setLists(lists);
+        setLists(data);
       });
-    console.log(lists);
   }
 
   //save the list to the database
@@ -62,11 +59,7 @@ const Project = (props) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(list),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-      });
+    }).then((res) => res.json());
   }
 
   useEffect(() => {
@@ -85,11 +78,7 @@ const Project = (props) => {
       headers: {
         "Content-Type": "application/json",
       },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-      });
+    }).then((res) => res.json());
     navigate("/projects/" + params.id);
   };
 
@@ -121,11 +110,7 @@ const Project = (props) => {
                   "Content-Type": "application/json",
                 },
                 body: JSON.stringify({ projectname: projectName }),
-              })
-                .then((res) => res.json())
-                .then((data) => {
-                  console.log(data);
-                });
+              }).then((res) => res.json());
             }
             setOpenSettings(!openSettings);
           }}
@@ -157,6 +142,9 @@ const Project = (props) => {
               />
             );
           })}
+        </div>
+        <div className="completed-items">
+          <h2>Completed Items</h2>
         </div>
       </div>
     </div>

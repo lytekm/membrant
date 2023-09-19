@@ -10,17 +10,17 @@
     height: min-content;
 }
 
-.input-node span{
+.input-node textarea{
     border: none;
     font-size: 1rem;
     width: 50%;
     background-color: rgb(36, 158, 165);
     margin-right: 10px;
-    overflow-wrap: break-word;
     resize: none;
+    overflow: hidden;
 }
 
-.input-node span:focus{
+.input-node textarea:focus{
     outline: none;
 }
 
@@ -50,6 +50,6 @@
     background-color: rgba(0, 128, 0, 0.581);
 }
 
-.complete input{
+.complete textarea{
     background-color: rgba(0, 0, 0, 0);
 }

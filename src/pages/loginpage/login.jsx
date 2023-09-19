@@ -30,7 +30,11 @@ const Login = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.message === "success") {
-          navigate("/dashboard/" + username);
+          if (username === "admin") {
+            navigate("/admin");
+          } else {
+            navigate("/dashboard/" + username);
+          }
         } else {
           setErrorMessage("Username or Password is incorrect");
         }

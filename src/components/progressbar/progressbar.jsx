@@ -16,8 +16,8 @@ const Progressbar = (props) => {
         return res.json();
       })
       .then((data) => {
-        setCompleted(completed + data.completed);
-        setTotal(total + data.total);
+        setCompleted((completed) => (completed += data.completed));
+        setTotal((total) => (total += data.total));
       });
   }
 
@@ -33,9 +33,9 @@ const Progressbar = (props) => {
         return res.json();
       })
       .then((data) => {
-        data.map((list) => {
-          return getProgress(list.list_id);
-        });
+        for (let i = 0; i < data.length; i++) {
+          getProgress(data[i].list_id);
+        }
       });
   }, []);
 
