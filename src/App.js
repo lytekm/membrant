@@ -11,7 +11,6 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import "./pages/mainpage/main.css";
 import "./components/navbar/nav.css";
-import "./components/header/head.css";
 import "./pages/signuppage/signup.css";
 import "./pages/dashboard/dash.css";
 import "./pages/projects/projects.css";
@@ -25,6 +24,7 @@ import "./pages/dayplanner/dayplanner.css";
 import "./components/addplanneritem/addplanneritem.css";
 import "./components/times/times.css";
 import "./pages/admin/admin.css";
+import "./components/features/features.css";
 
 const App = () => {
   return (

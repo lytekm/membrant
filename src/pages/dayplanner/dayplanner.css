@@ -10,3 +10,18 @@ body{
 .today{
     margin-left: 5rem;
 }
+
+.add-btn{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid rgb(36, 158, 165);
+    background-color: rgb(61, 244, 253);
+    transition: 200ms ease;
+}
+
+.add-btn:hover{
+    background-color: rgb(36, 158, 165);
+    color: rgb(255, 255, 255);
+    transform: scale(1.1);
+}

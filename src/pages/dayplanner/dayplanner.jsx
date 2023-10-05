@@ -75,6 +75,7 @@ const DayPlanner = () => {
         <h2>Today</h2>
         <button
           className="add-btn"
+          id="addTask"
           onClick={() => {
             setAddTask(true);
           }}

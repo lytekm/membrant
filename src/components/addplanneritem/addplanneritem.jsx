@@ -6,7 +6,7 @@ const AddItem = (props) => {
   };
 
   return (
-    <div className="add-item">
+    <div className="add-item" id="addTaskModal">
       <input
         type="text"
         placeholder="Add Task"

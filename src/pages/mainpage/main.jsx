@@ -1,33 +1,31 @@
-import Header from "../../components/header/head";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import React from "react";
+import Features from "../../components/features/features";
 
-const MainPage = (props) => {
+const MainPage = () => {
+  const navigate = useNavigate();
   return (
     <div className="mainpage">
-      <Header />
-      <img
-        className="mainpage-image"
-        src="https://i.insider.com/60144316a7c0c4001991dde6?width=1000&format=jpeg&auto=webp"
-        alt="mainpage"
-      />
-      <div className="intro">
-        <h2>What is Membrant?</h2>
+      <div className="head">
         <p>
-          Membrant is a web application that makes the development process
+          "For every minute spent <br />
+          organizing, and hour is earned"-
           <br />
-          easier. It is a tool that helps you to create and manage your
-          projects.
+          Anonymous.
         </p>
-
-        <p>
-          Membrant has tools to help you plan your projects, <br /> and keep
-          track of the workflow while working with a team or on your own.
-        </p>
-
-        <p>
-          Ready to go? Press here to <Link to={"/signup"}>get started!</Link>
-        </p>
+        <h1>Membrant</h1>
+        <button onClick={() => navigate("/signup")}>Get Started</button>
+      </div>
+      <div className="body">
+        <h2>Features</h2>
+        <div className="features">
+          <Features
+            title={"Daily Tasks"}
+            text="Keep track of your daily tasks"
+          />
+          <Features title={"Projects"} text="Organize your projects" />
+          <Features title={"Day Planner"} text="Plan your day" />
+        </div>
       </div>
     </div>
   );
