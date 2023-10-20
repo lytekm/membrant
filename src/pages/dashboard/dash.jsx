@@ -1,15 +1,22 @@
 import React, { Fragment, useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Navbar from "../../components/navbar/nav";
 import Node from "../../components/nodes/node";
 import config from "../../config.js";
 
-const Dashboard = (props) => {
+/**
+ * Renders the Dashboard component.
+ *
+ * @return {JSX.Element} The rendered Dashboard component.
+ */
+
+const Dashboard = () => {
   const params = useParams();
   const [tasks, setTasks] = useState([]);
   //const [lateTasks, setLateTasks] = useState("");
   const [recentProjects, setRecentProjects] = useState([]);
   const [text, setText] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch(`${config.apiBaseUrl}/dailytasks/` + params.id, {
@@ -22,6 +29,20 @@ const Dashboard = (props) => {
       .then((data) => {
         setTasks(...tasks, data);
         console.log(data);
+      });
+  }, []);
+  // get the recent projects
+  useEffect(() => {
+    fetch(`${config.apiBaseUrl}/projects/recent/` + params.id, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setRecentProjects(data);
       });
   }, []);
 
@@ -77,7 +98,16 @@ const Dashboard = (props) => {
               <p>No recent projects</p>
             ) : (
               recentProjects.map((project) => (
-                <Node class="project" key={project.id} text={project.name} />
+                <Node
+                  class="project"
+                  onClick={() => {
+                    navigate(
+                      "/projects/" + params.id + "/" + project.project_id
+                    );
+                  }}
+                  key={project.project_id}
+                  text={project.projectname}
+                />
               ))
             )}
           </div>

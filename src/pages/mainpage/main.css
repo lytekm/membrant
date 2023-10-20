@@ -45,7 +45,12 @@ body{
     color: rgb(255, 255, 255);
 }
 
-.features{
+.body h2{
+    font-size: 55px;
+    margin: 20px;
+}
+
+.features-container{
     display: flex;
     flex-direction: row;
     justify-content: space-around;

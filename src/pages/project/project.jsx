@@ -95,6 +95,17 @@ const Project = (props) => {
     setLists([...lists, list]);
   };
 
+  const deleteList = (listID) => {
+    fetch(`${config.apiBaseUrl}/lists/` + listID, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((res) => res.json());
+
+    setLists(lists.filter((list) => list.list_id !== listID));
+  };
+
   return (
     <div>
       <Navbar />
@@ -139,6 +150,9 @@ const Project = (props) => {
                 listName={list.listname}
                 key={list.list_id}
                 listID={list.list_id}
+                deleteList={() => {
+                  deleteList(list.list_id);
+                }}
               />
             );
           })}

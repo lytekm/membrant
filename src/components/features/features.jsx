@@ -1,4 +1,3 @@
-import { click } from "@testing-library/user-event/dist/click";
 import { React, useState } from "react";
 
 export default function Features(props) {
@@ -9,10 +8,13 @@ export default function Features(props) {
   }
 
   return (
-    <div className={clicked ? "features-clicked" : "features"}>
+    <div
+      className={clicked ? "features-clicked" : "features"}
+      onClick={handleClick}
+    >
       <h1>{props.title}</h1>
       {clicked ? (
-        <div>
+        <div className="features-body">
           <p>{props.text}</p>
           <img src={props.img} alt="img" />
         </div>
