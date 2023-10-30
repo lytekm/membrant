@@ -5,20 +5,19 @@ import Settings from "../../components/projectsettings/settings";
 import List from "../../components/list/list";
 import Progressbar from "../../components/progressbar/progressbar";
 import config from "../../config.js";
+import Arrow from "../../components/list/arrow.svg";
 
 const Project = (props) => {
-  //hooks
   const params = useParams();
   const [projectName, setProjectName] = useState("");
   const [openSettings, setOpenSettings] = useState(false);
+  const [openCompleted, setOpenCompleted] = useState(false);
   const [completedItems, setCompletedItems] = useState([]);
   const [lists, setLists] = useState([]);
   const navigate = useNavigate();
-  //get user and project id from url
   const projectID = params.projectId;
   const user = params.id;
 
-  //get the project name
   function fetchProject() {
     fetch(`${config.apiBaseUrl}/projects/` + user, {
       method: "GET",
@@ -37,7 +36,6 @@ const Project = (props) => {
       });
   }
 
-  //get the project lists
   function fetchLists() {
     fetch(`${config.apiBaseUrl}/projects/lists/` + projectID, {
       method: "GET",
@@ -51,7 +49,20 @@ const Project = (props) => {
       });
   }
 
-  //save the list to the database
+  function fetchCompltedItems() {
+    fetch(`${config.apiBaseUrl}/projects/complete/` + projectID, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setCompletedItems(data);
+      });
+  }
+
   function saveList(list) {
     fetch(`${config.apiBaseUrl}/lists`, {
       method: "POST",
@@ -65,13 +76,13 @@ const Project = (props) => {
   useEffect(() => {
     fetchProject();
     fetchLists();
+    fetchCompltedItems();
   }, []);
 
   const titleOnChange = (e) => {
     setProjectName(e.target.value);
   };
 
-  //delete the project
   const deleteProject = () => {
     fetch(`${config.apiBaseUrl}/projects/` + projectID, {
       method: "DELETE",
@@ -82,7 +93,6 @@ const Project = (props) => {
     navigate("/projects/" + params.id);
   };
 
-  //add a new list
   const addList = () => {
     const list = {
       listname: "New List",
@@ -159,6 +169,23 @@ const Project = (props) => {
         </div>
         <div className="completed-items">
           <h2>Completed Items</h2>
+          <img
+            src={Arrow}
+            alt="arrow"
+            onClick={() => setOpenCompleted(!openCompleted)}
+            style={{
+              transform: openCompleted ? "rotate(0deg)" : "rotate(180deg)",
+            }}
+          />
+        </div>
+        <div
+          className="completed-items-container"
+          style={{ display: openCompleted ? "block" : "none" }}
+        >
+          <h3>{completedItems.length} Items</h3>
+          {completedItems.map((item) => {
+            return <p key={completedItems.indexOf(item)}>{item.taskname}</p>;
+          })}
         </div>
       </div>
     </div>

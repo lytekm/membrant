@@ -4,12 +4,6 @@ import Navbar from "../../components/navbar/nav";
 import Node from "../../components/nodes/node";
 import config from "../../config.js";
 
-/**
- * Renders the Dashboard component.
- *
- * @return {JSX.Element} The rendered Dashboard component.
- */
-
 const Dashboard = () => {
   const params = useParams();
   const [tasks, setTasks] = useState([]);
