@@ -3,10 +3,9 @@ import config from "../../config.js";
 
 const Progressbar = (props) => {
   const [completed, setCompleted] = useState(0);
-  const [total, setTotal] = useState(0);
 
-  function getProgress(listid) {
-    fetch(`${config.apiBaseUrl}/tasks/count/` + listid, {
+  function getProgress(projectid) {
+    fetch(`${config.apiBaseUrl}/projects/completion/` + projectid, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -16,34 +15,20 @@ const Progressbar = (props) => {
         return res.json();
       })
       .then((data) => {
-        setCompleted((completed) => (completed += data.completed));
-        setTotal((total) => (total += data.total));
+        console.log(data);
+        setCompleted(data[0].completion_percentage);
       });
   }
 
   useEffect(() => {
-    //get all lists in the project
-    fetch(`${config.apiBaseUrl}/projects/lists/` + props.projectId, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        for (let i = 0; i < data.length; i++) {
-          getProgress(data[i].list_id);
-        }
-      });
+    getProgress(props.projectId);
   }, []);
 
   return (
     <div className="progress-bar">
       <div
         className="progress-bar__fill"
-        style={{ width: (completed / total) * 100 + "%" }}
+        style={{ width: completed + "%" }}
       ></div>
     </div>
   );

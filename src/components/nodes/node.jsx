@@ -1,7 +1,8 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 
 const Node = (props) => {
   const [complete, setComplete] = useState("");
+  const [percentage, setPercentage] = useState(0);
 
   const deleteTask = (id) => {
     fetch("http://localhost:5000/dailytasks/" + id, {
@@ -16,6 +17,23 @@ const Node = (props) => {
       });
     setComplete(" complete");
   };
+
+  useEffect(() => {
+    if (props.project_id) {
+      fetch("http://localhost:5000/projects/completion/" + props.project_id, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          setPercentage(data[0].completion_percentage);
+        });
+    }
+  });
+
   return (
     <div
       className={props.class + complete}
@@ -23,11 +41,13 @@ const Node = (props) => {
         props.onClick
           ? props.onClick
           : () => {
-              deleteTask(props.id);
+              deleteTask(props.dailytask_id);
             }
       }
     >
-      <p className="node-text">{props.text}</p>
+      <p className="node-text">
+        {props.text} {props.project_id ? `(${percentage}%)` : ""}
+      </p>
     </div>
   );
 };

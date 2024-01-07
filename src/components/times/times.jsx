@@ -75,25 +75,35 @@ const Times = (props) => {
           </span>
         );
       })}
-      {props.tasks.map((task, index) => {
+      {props.tasks.map((task) => {
+        const starttime = task.starttime.split(" ");
+        const endtime = task.endtime.split(" ");
+        const start = {
+          hours: starttime[0],
+          minutes: starttime[1],
+          am: starttime[2],
+        };
+        const end = {
+          hours: endtime[0],
+          minutes: endtime[1],
+          am: endtime[2],
+        };
+
         return (
           <div
-            key={index}
+            key={task.dayplanner_id}
             className="daily-planner-item"
+            onClick={() => {
+              props.editTask(task);
+            }}
             style={{
-              top:
-                calculateTop(task.start.hours, task.start.am, task.end.am) +
-                "px",
+              top: calculateTop(start.hours, start.am, end.am) + "px",
               height:
-                calculateHeight(
-                  task.start.hours,
-                  task.end.hours,
-                  task.start.am,
-                  task.end.am
-                ) + "px",
+                calculateHeight(start.hours, end.hours, start.am, end.am) +
+                "px",
             }}
           >
-            <p>{task.name}</p>
+            <p>{task.taskname}</p>
           </div>
         );
       })}

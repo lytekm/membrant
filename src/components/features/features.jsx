@@ -9,16 +9,15 @@ export default function Features(props) {
 
   return (
     <div
-      className={clicked ? "features-clicked" : "features"}
+      className={clicked ? "features" : "features-clicked"}
       onClick={handleClick}
     >
-      <h1>{props.title}</h1>
-      {clicked ? (
-        <div className="features-body">
+      <h2>{props.title}</h2>
+      {clicked ? null : (
+        <div className="features-text">
           <p>{props.text}</p>
-          <img src={props.img} alt="img" />
         </div>
-      ) : null}
+      )}
     </div>
   );
 }

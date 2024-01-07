@@ -3,6 +3,7 @@ import Navbar from "../../components/navbar/nav";
 import AddItem from "../../components/addplanneritem/addplanneritem";
 import Times from "../../components/times/times";
 import { useParams } from "react-router-dom";
+import config from "../../config.js";
 
 const DayPlanner = () => {
   const [taskName, setTaskName] = useState("");
@@ -13,24 +14,59 @@ const DayPlanner = () => {
     start: { hours: 0, minutes: 0, am: "am" },
     end: { hours: 0, minutes: 0, am: "am" },
   });
+  const [taskEditor, setTaskEditor] = useState(false);
+  const [task, setTask] = useState({});
+
+  const params = useParams();
+
+  useEffect(() => {
+    fetch(`${config.apiBaseUrl}/dayplanner/` + params.id, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setTasks(...tasks, data);
+        console.log(data);
+      });
+  }, []);
+
+  const addTaskToDB = (task) => {
+    fetch(`${config.apiBaseUrl}/dayplanner`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(task),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      });
+  };
 
   //add task to planner
   const AddTask = () => {
     const newTask = {
-      name: taskName,
-      start: time.start,
-      end: time.end,
+      taskname: taskName,
+      user: params.id,
+      starttime: `${time.start.hours} ${time.start.minutes} ${time.start.am}`,
+      endtime: `${time.end.hours} ${time.end.minutes} ${time.end.am}`,
       notes: notes,
+      dayplanner_id: Math.floor(Math.random() * 100),
     };
     if (newTask.name === "") {
       alert("Please fill out all fields");
       return;
     }
-    if (newTask.start.hours === 12 && newTask.start.am === "am") {
-      newTask.start.hours = 0;
+    if (newTask.starttime.hours === 12 && newTask.starttime.am === "am") {
+      newTask.starttime.hours = 0;
     }
     setTasks([...tasks, newTask]);
     setAddTask(false);
+    addTaskToDB(newTask);
   };
 
   const changeTaskName = (e) => {
@@ -67,6 +103,20 @@ const DayPlanner = () => {
     setNotes(e.target.value);
   };
 
+  const editTask = (task) => {
+    setTaskEditor(!taskEditor);
+    setTask(task);
+  };
+
+  const deleteTask = (id) => {
+    fetch(`${config.apiBaseUrl}/dayplanner/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  };
+
   return (
     <Fragment>
       <Navbar />
@@ -77,7 +127,7 @@ const DayPlanner = () => {
           className="add-btn"
           id="addTask"
           onClick={() => {
-            setAddTask(true);
+            setAddTask(!addTask);
           }}
         >
           +
@@ -98,7 +148,25 @@ const DayPlanner = () => {
           ) : null}
         </div>
         <div className="task-container">
-          <Times tasks={tasks} />
+          <Times tasks={tasks} editTask={editTask} />
+        </div>
+        <div className="task-editor">
+          {taskEditor ? (
+            <div>
+              <h1>{task.taskname}</h1>
+              <p>{task.notes}</p>
+              <p>
+                {task.starttime} - {task.endtime}
+              </p>
+              <button
+                onClick={() => {
+                  deleteTask(task.dayplanner_id);
+                }}
+              >
+                Delete
+              </button>
+            </div>
+          ) : null}
         </div>
       </div>
     </Fragment>

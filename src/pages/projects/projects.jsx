@@ -24,6 +24,22 @@ const Projects = () => {
       });
   }, []);
 
+  //get the completion of each project
+  useEffect(() => {
+    projects.map((project) => {
+      fetch(`${config.apiBaseUrl}/projects/complete/` + project.project_id, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+        });
+    });
+  });
+
   //send the new project to the database
   const createProject = () => {
     const project = {
@@ -74,6 +90,7 @@ const Projects = () => {
                       "/projects/" + params.id + "/" + project.project_id
                     );
                   }}
+                  project_id={project.project_id}
                 />
               );
             })}

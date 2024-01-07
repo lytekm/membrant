@@ -1,57 +1,70 @@
 @import url('https://fonts.googleapis.com/css2?family=Taviraj&display=swap');
 
-body{
+body {
+    margin: 0;
+    font-family: 'Taviraj', serif;
+    background-color: #f4f4f4;
+}
+
+.head {
+    position: relative;
+    padding: 20px;
+    background-color: #5BF5FF;
+    text-align: center;
+    color: #000;
+}
+
+.head p {
+    font-weight: bold;
+    font-size: 1.8rem;
     margin: 0;
 }
 
-.head{
-    position: relative;
-    font-family: 'Taviraj', serif;
-    padding: 20px;
-    background-color: #5BF5FF;
-}
-
-.head p{
+.head h1 {
+    font-size: 3.5rem;
     font-weight: bold;
-    font-size: 1.8rem;
-    margin-left: 80px;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    margin: 10px 0;
 }
 
-.head h1{
-    font-size: 100px;
-    font-weight: bold;
-    text-shadow: 10px 5px rgba(0, 0, 0, 0.153);
-    margin-left: 80px;
-}
-
-.head button{
+.head button {
     position: absolute;
-    right: 100px;
-    top: 200px;
-    height: 100px;
-    width: 450px;
-    font-size: 40px;
-    border-radius: 80px;
+    right: 50px;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 60px;
+    width: 250px;
+    font-size: 1.5rem;
+    border-radius: 30px;
     background-color: #04C3FF;
     border: none;
     font-weight: bold;
-    transition: 200ms ease;
+    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 -10px 10px rgba(0, 0, 0, 0);
 }
 
-.head button:hover{
+.head button:hover {
     cursor: pointer;
+    background-color: #0289cc;
+    color: #fff;
     transform: scale(1.1);
-    background-color: #04C3FF;
-    color: rgb(255, 255, 255);
+    box-shadow: 0 -10px 10px rgba(0, 0, 0, 0.2);
 }
 
-.body h2{
-    font-size: 55px;
-    margin: 20px;
+.body h2 {
+    font-size: 2rem;
+    margin: 20px 0;
+    text-align: center;
 }
 
-.features-container{
+.features-container {
+    margin: auto;
+    width: min-content;
     display: flex;
-    flex-direction: row;
-    justify-content: space-around;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 20px;
 }
+
+/* Add your additional styles for the body content and other sections as needed */

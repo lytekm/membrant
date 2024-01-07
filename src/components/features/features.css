@@ -8,12 +8,14 @@
     align-items: center;
     border-radius: 10px;
     transition: 200ms ease;
+    margin: 20px;
 }
 
 .features:hover{
     transform: scale(1.1);
     transform: rotate3D(0, -1, 0, 20deg);
     box-shadow: -10px 0 10px rgba(0, 0, 0, 0.153);
+    background-color: #0289cc;
     cursor: pointer;
 }
 

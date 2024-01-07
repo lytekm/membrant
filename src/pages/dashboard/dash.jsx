@@ -101,6 +101,7 @@ const Dashboard = () => {
                   }}
                   key={project.project_id}
                   text={project.projectname}
+                  project_id={project.project_id}
                 />
               ))
             )}
@@ -125,7 +126,7 @@ const Dashboard = () => {
                 key={task.dailytask_id}
                 text={task.tasktext}
                 button={true}
-                id={task.dailytask_id}
+                dailytask_id={task.dailytask_id}
               />
             ))}
           </div>
